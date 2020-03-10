@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Loading from "./Loading";
+import Loading from "../Loading";
 import WeatherItem from "./WeatherItem";
 
 class Weather extends Component {
@@ -61,7 +61,7 @@ class Weather extends Component {
         <div
           key={index}
           title={f.weather[0].description}
-          className="weatherItem"
+          className="uk-card uk-card-default uk-card-body uk-margin-small-left uk-margin-small-right uk-width-1-5 "
         >
           <img src={this.getIcon(f.weather[0].icon)} alt="icon" />
           <div className="weatherName">
@@ -85,20 +85,17 @@ class Weather extends Component {
     });
 
     return (
-      <div className="weather">
-        <div className="input-field col s12">
-          <select
+      <div className="uk-padding">
+          <select className="uk-select"
             onChange={e =>
               this.setState({ cityOption: e.target.value, loading: true })
             }
-            style={{display: 'block'}}
           >
             <option value="London">London</option>
             <option value="Prague">Prague</option>
             <option value="Taipei">Taipei</option>
           </select>
-        </div>
-
+            
         {this.state.loading ? (
           <Loading />
         ) : (

@@ -1,6 +1,6 @@
 import React from "react";
-import Weather from "./components/Weather";
-import MusicPlayer from "./components/MusicPlayer";
+import Weather from "./components/weather/Weather";
+import MusicPlayer from "./components/music/MusicPlayer";
 import Header from "./components/Header";
 import Quiz from './components/Quiz';
 import Gibbets from './components/Gibbets';
@@ -13,7 +13,7 @@ function App() {
     <Router>
       <Header />
 
-      <div className="conatiner">
+      <div className="container uk-conatiner uk-container-large">
         <Switch>
           <Route path="/music">
             <MusicPlayer />
