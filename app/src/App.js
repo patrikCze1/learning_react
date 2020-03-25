@@ -2,7 +2,7 @@ import React from "react";
 import Weather from "./components/weather/Weather";
 import MusicPlayer from "./components/music/MusicPlayer";
 import Header from "./components/Header";
-import Quiz from './components/Quiz';
+import Quiz from './components/quiz/Quiz';
 import Gibbets from './components/Gibbets';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 

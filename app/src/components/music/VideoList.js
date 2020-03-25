@@ -3,7 +3,6 @@ import ListItem from "./ListItem";
 
 class VideoList extends Component {
   render() {
-    console.log(this.props.results);
     return this.props.results.map((result, index) => {
       return (
         <div>

@@ -32,7 +32,6 @@ class Weather extends Component {
     if (prevState.cityOption !== this.state.cityOption) {
       this.componentDidMount();
     }
-    console.log(prevState);
   }
 
   getIcon(weather) {

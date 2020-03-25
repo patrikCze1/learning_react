@@ -14,17 +14,10 @@ function Header(props) {
               <Link to="/weather">Weather</Link>
             </li>
             <li>
-              <a href="#">Quiz</a>
-              <div class="uk-navbar-dropdown">
-                <ul class="uk-nav uk-navbar-dropdown-nav">
-                  <li>
-                    <Link to="/quiz">Quiz</Link>
-                  </li>
-                  <li>
-                    <Link to="/gibbets">Gibbets</Link>
-                  </li>
-                </ul>
-              </div>
+              <Link to="/quiz">Quiz</Link>
+            </li>
+            <li>
+              <Link to="/gibbets">Gibbets</Link>
             </li>
             <li>
               <Link to="/music">Music player</Link>
