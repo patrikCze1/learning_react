@@ -2,9 +2,8 @@ import React from "react";
 
 function Loading(props) {
   return (
-    <div className="lds-ripple">
-      <div></div>
-      <div></div>
+    <div class="progress">
+      <div class="indeterminate"></div>
     </div>
   );
 }

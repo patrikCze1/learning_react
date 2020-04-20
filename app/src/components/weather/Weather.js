@@ -1,118 +1,91 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Loading from "../Loading";
 import WeatherItem from "./WeatherItem";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+import { changeCity } from '../../actions/index';
+import { useSelector, useDispatch } from "react-redux";
 
-class Weather extends Component {
-  state = {
-    forecasts: [],
-    city: {},
-    loading: true,
-    cityOption: "London"
-  };
-
-  componentDidMount() {
-    const url = `http://api.openweathermap.org/data/2.5/forecast?q=${this.state.cityOption}&appid=${apiKey}`;
-
-    fetch(url)
-      .then(res => res.json())
-      .catch(err => console.log(err))
-      .then((
-        res //console.log(res)
-      ) =>
-        this.setState({
-          forecasts: res.list,
-          city: res.city,
-          loading: false
-        })
-      )
-      .catch(err => console.log(err));
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.cityOption !== this.state.cityOption) {
-      this.componentDidMount();
+const FORECAST = gql`
+  query forecasts($city: String!) {
+    forecasts(city: $city) {
+      list {
+        dt_txt
+        main {
+          temp_min
+          temp_max
+        }
+        weather {
+          main
+          description
+          icon
+        }
+      }
+      city {
+        name
+        country
+        sunrise
+        sunset
+      }
     }
   }
+`;
 
-  getIcon(weather) {
-    const url = "http://openweathermap.org/img/wn/";
-    const end = "@2x.png";
+const Weather = (props) => {
+  const state = useSelector(state => state)
+console.log(state)
+  const { loading, error, data } = useQuery(FORECAST, {
+    variables: { city: state },
+  });
 
-    return `${url}${weather}${end}`;
-  }
+  if (loading) return <Loading />;
+  if (error) return <h1>Error</h1>;
 
-  getCelsius(temp) {
-    return Math.floor(temp - 273.15);
-  }
+  const getDate = (date) => {
+    const d = new Date(parseInt(date));
+    return `${d.getHours()}:${d.getMinutes() + 1}`;
+  };
 
-  getDate(date) {
-    const d = new Date(date);
+  const city = data.forecasts.city;
+  const { sunrise, sunset } = city;
 
-    return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-  }
+  const cities = [
+    {name: 'London', code: 'London'},
+    {name: 'Prague', code: 'Prague'},
+    {name: 'Paris', code: 'Paris'},
+    {name: 'Sydney', code: 'Sydney'},
+    {name: 'New York', code: 'New+York'},
+    {name: 'Moscow', code: 'Moscow'},
+  ];
 
-  render() {
-    const { forecasts, city } = this.state;
-    let data = forecasts.filter((f, index) => index % 8 === 0);
+  const options = cities.map(city => {
+    return <button className='btn' onClick={() => props.dispatch(changeCity(city.code))}>{city.name}</button>
+  });
 
-    data = data.map((f, index) => {
-      return (
-        <div
-          key={index}
-          title={f.weather[0].description}
-          className="uk-card uk-card-default uk-card-body uk-margin-small-left uk-margin-small-right uk-width-1-5 "
-        >
-          <img src={this.getIcon(f.weather[0].icon)} alt="icon" />
-          <div className="weatherName">
-            <span>{f.weather[0].main}</span>
+  const forecasts = data.forecasts.list.filter((forecast, index) => {
+    if (index % 8 === 0) {
+      return forecast;
+    }
+  });
 
-            <span className="date">{this.getDate(f.dt_txt)}</span>
-          </div>
-
-          <hr></hr>
-
-          <div style={{ padding: "0px 2%" }}>
-            <span style={floatLeft}>
-              Min: {this.getCelsius(f.main.temp_min)} °C
-            </span>
-            <span style={floatRight}>
-              Max: {this.getCelsius(f.main.temp_max)} °C
-            </span>
-          </div>
-        </div>
-      );
-    });
-
-    return (
-      <div className="uk-padding">
-          <select className="uk-select"
-            onChange={e =>
-              this.setState({ cityOption: e.target.value, loading: true })
-            }
-          >
-            <option value="London">London</option>
-            <option value="Prague">Prague</option>
-            <option value="Taipei">Taipei</option>
-          </select>
-            
-        {this.state.loading ? (
-          <Loading />
-        ) : (
-          <WeatherItem forecasts={data} cityName={city.name} />
-        )}
+  return (
+    <div>
+      <div>
+          {options}
       </div>
-    );
-  }
-}
-
-const apiKey = "536f1b860110f17fbf49e75fe53d3601";
-
-const floatRight = {
-  float: "right"
-};
-
-const floatLeft = {
-  float: "left"
+      <h1>
+        {city.name} - {city.country}
+      </h1>
+      <p>
+        Sunrise: {getDate(sunrise)} AM - Sunset: {getDate(sunset)} PM
+      </p>
+      <div className="row">
+        {forecasts.map((forecast, index) => (
+          <WeatherItem {...forecast} key={index} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Weather;
