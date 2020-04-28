@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
+import React from "react";
+import Answer from "./Answer";
 
-class Question extends Component {
-    render() {
-        const { question } = this.props.question;
-        return (
-            <div>
-                {question}
-            </div>
-        );
-    }
-}
+const Question = ({ text, answers, submited, index, }) => {
+  return (
+    <div>
+      <p>{text}</p> 
+      <ul className="collection">
+        {answers.map((answer, key) => (
+          <Answer key={key} {...answer} index={index} submited={submited} />
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 export default Question;

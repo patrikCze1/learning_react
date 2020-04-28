@@ -1,20 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import ListItem from "./ListItem";
 
-class VideoList extends Component {
-  render() {
-    return this.props.results.map((result, index) => {
-      return (
-        <div>
-          <ListItem
-            key={index}
-            result={result}
-            selectVideo={this.props.selectVideo}
-          />
-        </div>
-      );
-    });
-  }
+function VideoList(props) {
+  return (
+    <ul className="collection">
+      {props.results.map((result, index) => (
+        <ListItem key={index} result={result} selectVideo={props.selectVideo} />
+      ))}
+    </ul>
+  );
 }
 
 export default VideoList;

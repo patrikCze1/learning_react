@@ -1,9 +1,9 @@
 import React from "react";
 
-function Loading(props) {
+function Loading() {
   return (
-    <div class="progress">
-      <div class="indeterminate"></div>
+    <div className="progress light-blue lighten-2">
+      <div className="indeterminate"></div>
     </div>
   );
 }

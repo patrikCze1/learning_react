@@ -1,6 +1,4 @@
 export default function profiles(state = [], action) {
-  console.log(action);
-  console.log(state);
   
   switch (action.type) {
     case "ADD_PROFILE":

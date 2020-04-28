@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import ProfileForm from "./ProfileForm";
 import ProfileListItem from "./ProfileListItem";
 import Loading from "../Loading";
-import { connect } from "react-redux";
 import { useSelector, useDispatch } from "react-redux";
 import { getProfiles } from "../../actions/profileActions";
 

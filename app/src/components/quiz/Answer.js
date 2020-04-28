@@ -1,25 +1,36 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setScore, submitQuestion } from "../../actions/quizActions";
 
-class Answer extends Component {
-    onClick = (correct) => {
-        if (correct) {
-            console.log('correct')
-            this.props.addPoints(100);
-            this.props.nextQuestion();
-        } else {
-            console.log('wrong')
-            this.props.addPoints(-100);
-        }
-    }
+export default function Answer({ text, correct, submited, index }) {
+  const dispatch = useDispatch();
+  const [color, setColor] = useState("");
 
-    render() {
-        const { option, correct } = this.props.answer;
-        return (
-            <button onClick={this.onClick.bind(this, correct)}>
-                {option}
-            </button>
-        );
+  useEffect(() => {
+    if (correct && submited) {
+        setColor("green");
     }
+  }, [submited])
+
+  const handleClick = () => {
+    if (submited === undefined) {
+      if (correct) {
+        setColor("green");
+        dispatch(setScore());
+      } else {
+        setColor("red");
+      }
+      dispatch(submitQuestion(index));
+    }
+  };
+
+  return (
+    <li
+      className="collection-item"
+      onClick={() => handleClick()}
+      style={{ backgroundColor: color }}
+    >
+      {text}
+    </li>
+  );
 }
-
-export default Answer;

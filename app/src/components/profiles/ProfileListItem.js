@@ -22,7 +22,7 @@ export default function ProfileListItem({
         </div>
         <p className='grey-text text-darken-1' style={{marginLeft: 24, marginTop: 5, marginBottom: 5}}>Tel: {tel}</p>
         <div className="card-action">
-          <button className='pink-text text-darken-2' onClick={() => dispatch(deleteProfile(id))}>Delete</button>
+          <button className='pink darken-2 btn waves-effect waves-light' onClick={() => dispatch(deleteProfile(id))}>Delete</button>
         </div>
       </div>
     </div>

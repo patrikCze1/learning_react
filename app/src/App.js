@@ -3,7 +3,6 @@ import Weather from "./components/weather/Weather";
 import MusicPlayer from "./components/music/MusicPlayer";
 import Header from "./components/Header";
 import Quiz from "./components/quiz/Quiz";
-import Gibbets from "./components/Gibbets";
 import Profiles from "./components/profiles/Profiles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -20,7 +19,7 @@ function App({ dispatch }) {
       <Router>
         <Header />
 
-        <div className="container uk-conatiner uk-container-large">
+        <div className="container">
           <Switch>
             <Route path="/music">
               <MusicPlayer />
@@ -32,10 +31,6 @@ function App({ dispatch }) {
 
             <Route path="/quiz">
               <Quiz />
-            </Route>
-
-            <Route path="/gibbets">
-              <Gibbets />
             </Route>
 
             <Route path="/profiles">

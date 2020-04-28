@@ -1,40 +1,28 @@
-import React, { Component } from 'react';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { setCategory } from "../../actions/quizActions";
+import Loading from '../Loading';
 
-class CategoryForm extends Component {
-    state = {
-        category: '',
-    }
+export default function CategoryForm({ categories, loading }) {
+  const dispatch = useDispatch();
+  const handleChange = (e) => {
+    dispatch(setCategory(e.target.value));
+  };
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        if (this.state.category) {
-            this.props.selectCategory(this.state.category);
-            this.setState({category: ''});
-            console.log('start');
-        }
-        
-        console.log('select category');
-    }
+  if (loading) {
+    return <Loading />;
+  }
 
-    onChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
-      };
-
-    render() {
-        const categories = this.props.categories;
-        const options = categories.map(category => {
-            return <option value={category.id}>{category.name}</option>
-        })
-        return (
-            <form onSubmit={this.onSubmit}>
-                <select name="category" onChange={this.onChange} required>
-                    <option disabled selected>Choose category</option>
-                    {options}
-                </select>
-                <input type='submit' value="Select" />
-            </form>
-        );
-    }
+  return (
+    <div>
+      <select id="categorySelect" onChange={(e) => handleChange(e)}>
+        <option value=''>Select category</option>
+        {categories.map((category, index) => (
+          <option key={index} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
 }
-
-export default CategoryForm;

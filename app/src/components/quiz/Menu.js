@@ -1,17 +1,11 @@
-import React, { Component } from 'react';
+import React from "react";
 
-class Menu extends Component {
-    render() {
-        const {score, category} = this.props;
-
-        return (
-            <div>
-                Score: {score}
-                Category: {category.name}
-                <button onClick={this.props.resetGame}>Reset</button>
-            </div>
-        );
-    }
+function Menu({ score }) {
+  return (
+    <div>
+      <h5>Score: {score}</h5>
+    </div>
+  );
 }
 
 export default Menu;

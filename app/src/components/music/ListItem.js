@@ -1,24 +1,29 @@
-import React, { Component } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectVideo } from '../../actions/musicActions'
 
-class ListItem extends Component {
-  render() {
-    const { url, width, height } = this.props.result.snippet.thumbnails.default;
+function ListItem (props) {
+    const { url, width, height } = props.result.snippet.thumbnails.default;
+    const { channelTitle, publishedAt, title } = props.result.snippet
+    const date = new Date(publishedAt);
+    const publishedAtText = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+    const dispatch = useDispatch();
 
     return (
-      <div class="uk-card uk-card-default uk-card-body uk-card-hover uk-text-center"
-      uk-tooltip={this.props.result.snippet.title}>
-        <div
-          onClick={this.props.selectVideo.bind(
-            this,
-            this.props.result.id.videoId
-          )}
-        >
+      <li
+        className="collection-item avatar"
+        onClick={() => dispatch(selectVideo(props.result.id.videoId))}
+        style={{margin: 10}}
+      >
+        <img src={url} width={width} height={height} className="circle" />
 
-          <img src={url} width={width} height={height} />
-        </div>
-      </div>
+        <span className="title"><b>{title}</b></span>
+        <p style={{marginTop: 5}}>
+          {channelTitle} <br />
+          <span className='grey-text'>{publishedAtText}</span>
+        </p>
+      </li>
     );
-  }
 }
 
 export default ListItem;

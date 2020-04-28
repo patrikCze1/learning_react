@@ -1,10 +1,10 @@
-import React, { Component, useState } from "react";
+import React from "react";
 import Loading from "../Loading";
 import WeatherItem from "./WeatherItem";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { changeCity } from '../../actions/index';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const FORECAST = gql`
   query forecasts($city: String!) {
@@ -33,9 +33,9 @@ const FORECAST = gql`
 
 const Weather = (props) => {
   const state = useSelector(state => state)
-console.log(state)
+
   const { loading, error, data } = useQuery(FORECAST, {
-    variables: { city: state },
+    variables: { city: state.cityReducer },
   });
 
   if (loading) return <Loading />;
